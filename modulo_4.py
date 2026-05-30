@@ -22,7 +22,7 @@ def asignar_agenda(pacientes_del_dia, franja, disponibilidad):
     soluciones = {}
     franjas_usadas = set()
     # --- Resolución: delegar la exploración al algoritmo recursivo --
-    exito = _explorar_asignaciones(pacientes_del_dia, franja, disponibilidad, soluciones,franjas_usadas)
+    exito = _explorar_asignaciones(pacientes_del_dia, franja, disponibilidad, soluciones, franjas_usadas)
 
     # --- Epílogo: devolver todas las soluciones encontradas ---------\
     if exito:
@@ -30,7 +30,7 @@ def asignar_agenda(pacientes_del_dia, franja, disponibilidad):
     else:
         return None
 
-def _explorar_asignaciones(pacientes, franjas, disponibilidad, soluciones,franjas_usadas):
+def _explorar_asignaciones(pacientes, franjas, disponibilidad, soluciones, franjas_usadas):
 
     #--------- caso base --------
     if len(pacientes) == len(soluciones):
@@ -56,28 +56,28 @@ def _explorar_asignaciones(pacientes, franjas, disponibilidad, soluciones,franja
 # --- EJECUCIÓN (en forma de script, para molestar programa principal)---
 if __name__ == "__main__":
      # Datos para probar.
-     franjas_del_dia = [
-         "08:00", "08:30", "09:00", "09:30",
-         "10:00", "10:30", "11:00", "11:30"
-     ]
+    franjas_del_dia = [
+        "08:00", "08:30", "09:00", "09:30",
+        "10:00", "10:30", "11:00", "11:30"
+    ]
 
-     pacientes_test = ["Juan", "Ana", "Pedro", "Maria"]
+    pacientes_test = ["Juan", "Ana", "Pedro", "Maria"]
 
-     disponibilidad_test = {
-         "Juan": ["08:00"],
-         "Ana": ["08:00"],
-         "Pedro": ["08:30", "09:30"],
-         "Maria": ["11:00", "11:30"]
-     }
+    disponibilidad_test = {
+        "Juan": ["08:00"],
+        "Ana": ["08:00"],
+        "Pedro": ["08:30", "09:30"],
+        "Maria": ["11:00", "11:30"]
+    }
 
-     resultado = asignar_agenda(pacientes_test, franjas_del_dia, disponibilidad_test)
+    resultado = asignar_agenda(pacientes_test, franjas_del_dia, disponibilidad_test)
 
-     if resultado:
-                 print(" Asignación encontrada:")
-                 for paciente, franja in resultado.items():
-                    print(f"  - {paciente}: {franja}")
-     else:
-                print("No existe una asignación válida para estos pacientes.")
+    if resultado:
+        print(" Asignación encontrada:")
+        for paciente, franja in resultado.items():
+            print(f"  - {paciente}: {franja}")
+    else:
+        print("No existe una asignación válida para estos pacientes.")
 
 """
 Discusion:

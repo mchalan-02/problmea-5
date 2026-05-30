@@ -1,7 +1,5 @@
 import struct
 import os
-import sys
-
 """
 
 SEMANA 12 problema nuemro 5
@@ -24,7 +22,6 @@ utilizando merge_sort
 """
 
 # AGREGAMOS CONSTANTES
-ruta = [1,2]
 FORMATO = '<i30s24s16sB'
 TAM_REGISTRO = struct.calcsize(FORMATO)
 NOMBRE_ARCHIVO = "pacientes_test.dat"
@@ -34,7 +31,8 @@ NOMBRE_ARCHIVO = "pacientes_test.dat"
 
 
 def leer_registro(ruta):
-    """leemos todos los registros y los agregamos a una lista.
+    """
+    leemos todos los registros y los agregamos a una lista.
     Precondición: 0 <= k < cantidad de registros.
     Postcondición: devuelve (activo, siguiente, id, nombre, telefono, email).
     """
@@ -51,8 +49,9 @@ def leer_registro(ruta):
             lista_datos.append((dni,apellido,nombre,telefono, prioridad))
     return lista_datos
 
-def merge_sort(ruta,columna):
-    """Ordena una secuencia comparándola por divide y vencerás.
+def merge_sort(lista, columna):
+    """
+    Ordena una secuencia comparándola por divide y vencerás.
 
     Precondición: secuencia es una lista de elementos comparables entre sí.
                   La ruta tiene formato <i30s24s16sB y donde entra
@@ -62,13 +61,13 @@ def merge_sort(ruta,columna):
     Complejidad: O(n log n) en tiempo, O(n) en espacio auxiliar.
     """
     # --- Prólogo: caso base de la recursión -------------------------
-    if len(ruta) <= 1:
-        return list(ruta)             # copia defensiva
+    if len(lista) <= 1:
+        return lista[:]          # copia defensiva
 
     # --- Resolución: dividir, recurrir, combinar --------------------
-    medio = len(ruta) >> 1            # división por 2 a nivel ALU
-    mitad_izq = merge_sort(ruta[:medio],columna)
-    mitad_der = merge_sort(ruta[medio:],columna)
+    medio = len(lista) >> 1            # división por 2 a nivel ALU
+    mitad_izq = merge_sort(lista[:medio],columna)
+    mitad_der = merge_sort(lista[medio:],columna)
     resultado = _fusionar(mitad_izq, mitad_der,columna)
 
     # --- Epílogo: devolver la solución del problema -----------------
@@ -101,7 +100,7 @@ def _fusionar(izq, der,columna):
     # --- Epílogo: devolver lista fusionada --------------------------
     return resultado
 
-def listar_pacientes_ordenados(ruta,criterio):
+def listar_pacientes_ordenados(ruta, criterio):
     """
     Toma un bytearray de pacientes y devuelve una lista ordenada de pacientes segun el criterio
     pre-condicion: criterio solo puede ser apellido o prioridad
@@ -116,14 +115,20 @@ def listar_pacientes_ordenados(ruta,criterio):
         return merge_sort(lista_apellido,4)
 
 if __name__ == "__main__":
-        #=========================================
-        # PRUEBA MOMENTANEA CON DATOS HARCODEADOS
-        #=========================================
-        lista = leer_registro(NOMBRE_ARCHIVO)
-        respuesta_apellido = listar_pacientes_ordenados (lista, "apellido")
-        respuesta_prioridad =listar_pacientes_ordenados(lista, "prioridad")
-        print(respuesta_apellido)
-        print(respuesta_prioridad)
+    #=========================================
+    # PRUEBA MOMENTANEA CON DATOS HARCODEADOS
+    #=========================================
+    respuesta_apellido = listar_pacientes_ordenados (NOMBRE_ARCHIVO, "apellido")
+    respuesta_prioridad =listar_pacientes_ordenados(NOMBRE_ARCHIVO, "prioridad")
+    
+    print("=== Ordenado por apellido ===")
+    for dni, apellido, nombre, telefono, prioridad in respuesta_apellido:
+        print(f" {apellido}, {nombre}  | DNI: {dni} | Tel: {telefono} | Prioridad: {prioridad}")
+
+    print()
+    print("=== Ordenado por prioridad ===")
+    for dni, apellido, nombre, telefono, prioridad in respuesta_prioridad:
+        print(f"  Prioridad {prioridad} | {apellido}, {nombre} | DNI: {dni} | Tel: {telefono} ")
 
 """Que el merge sort sea estable es una funcionalidad que en este ejercicio es de suma importancia, debido al uso de dos pasadas para realizar el ordenamiento mediante el criterio prioridad.
 Primero realizamos una pasada OBLIGATORIA donde ordenamos la lista mediante apellido, entonces cuando ordenemos por prioridad, en caso q este mismo sea igual al que este analizando
